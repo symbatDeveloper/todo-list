@@ -20,8 +20,8 @@ function App() {
     });
     setTask(filteredtask);
   }
-  function addTask() {
-    let newTask = { id: v1(), title: "newtask", isDone: false };
+  function addTask(title: string) {
+    let newTask = { id: v1(), title: title, isDone: false };
     let newTasks = [newTask, ...tasks];
     setTask(newTasks);
   }
@@ -43,6 +43,7 @@ function App() {
         tasks={tasks}
         removeTask={removeTask}
         changeFilter={changeFilter}
+        addTask={addTask}
       />
     </div>
   );
