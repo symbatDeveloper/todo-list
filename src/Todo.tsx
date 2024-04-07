@@ -8,12 +8,17 @@ export type TaskType = {
 };
 
 type PropsType = {
+  id: string;
   title: string;
   tasks: Array<TaskType>;
-  removeTask: (tasksId: string) => void;
-  changeFilter: (value: FilteredValue) => void;
-  addTask: (title: string) => void;
-  changeTaskStatus: (taskId: string, isDone: boolean) => void;
+  removeTask: (tasksId: string, todolistId: string) => void;
+  changeFilter: (value: FilteredValue, todolistId: string) => void;
+  addTask: (title: string, todolistId: string) => void;
+  changeTaskStatus: (
+    taskId: string,
+    isDone: boolean,
+    todolistId: string
+  ) => void;
   filter: FilteredValue;
 };
 
@@ -26,7 +31,7 @@ export function Todo(props: PropsType) {
       setError("Title is required");
       return;
     } else {
-      props.addTask(newTaskTitle);
+      props.addTask(newTaskTitle, props.id);
       setNewTaskTitle(newTaskTitle);
     }
     setNewTaskTitle("");
@@ -43,13 +48,13 @@ export function Todo(props: PropsType) {
     }
   };
   const filterActive = () => {
-    props.changeFilter("active");
+    props.changeFilter("active", props.id);
   };
   const filterAll = () => {
-    props.changeFilter("all");
+    props.changeFilter("all", props.id);
   };
   const filterCompleted = () => {
-    props.changeFilter("completed");
+    props.changeFilter("completed", props.id);
   };
 
   return (
@@ -69,10 +74,10 @@ export function Todo(props: PropsType) {
       <ul>
         {props.tasks.map((t) => {
           const onRemoveHandler = () => {
-            props.removeTask(t.id);
+            props.removeTask(t.id, props.id);
           };
           const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-            props.changeTaskStatus(t.id, e.currentTarget.checked);
+            props.changeTaskStatus(t.id, e.currentTarget.checked, props.id);
           };
           return (
             <li key={t.id} className={t.isDone ? "done" : ""}>
