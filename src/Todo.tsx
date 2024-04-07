@@ -1,12 +1,12 @@
 import { ChangeEvent, useState, KeyboardEvent } from "react";
 import { FilteredValue } from "./App";
-import { error } from "console";
 
 export type TaskType = {
   id: string;
   title: string;
   isDone: boolean;
 };
+
 type PropsType = {
   title: string;
   tasks: Array<TaskType>;
@@ -14,6 +14,7 @@ type PropsType = {
   changeFilter: (value: FilteredValue) => void;
   addTask: (title: string) => void;
   changeTaskStatus: (taskId: string, isDone: boolean) => void;
+  filter: FilteredValue;
 };
 
 export function Todo(props: PropsType) {
@@ -33,10 +34,10 @@ export function Todo(props: PropsType) {
 
   const onNewTitleChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setNewTaskTitle(e.currentTarget.value);
-    setError(null);
   };
 
   const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
+    setError(null);
     if (e.key === "Enter") {
       addNewTask();
     }
@@ -74,7 +75,7 @@ export function Todo(props: PropsType) {
             props.changeTaskStatus(t.id, e.currentTarget.checked);
           };
           return (
-            <li key={t.id}>
+            <li key={t.id} className={t.isDone ? "done" : ""}>
               <input
                 type="checkbox"
                 onChange={onChangeHandler}
@@ -89,9 +90,24 @@ export function Todo(props: PropsType) {
       </ul>
 
       <div>
-        <button onClick={filterAll}>All</button>
-        <button onClick={filterActive}>Active</button>
-        <button onClick={filterCompleted}>Completed</button>
+        <button
+          className={props.filter === "all" ? "active-button" : ""}
+          onClick={filterAll}
+        >
+          All
+        </button>
+        <button
+          className={props.filter === "active" ? "active-button" : ""}
+          onClick={filterActive}
+        >
+          Active
+        </button>
+        <button
+          className={props.filter === "completed" ? "active-button" : ""}
+          onClick={filterCompleted}
+        >
+          Completed
+        </button>
       </div>
     </div>
   );

@@ -26,3 +26,9 @@
 .error-message {
   color: red;
 }
+.active-button {
+  background-color: #61dafb;
+}
+.done {
+  opacity: 0.5;
+}
