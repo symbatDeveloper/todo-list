@@ -2,24 +2,12 @@ import React, { useState } from "react";
 import { ChangeEvent, KeyboardEvent } from "react";
 
 type addItemFormType = {
-  addItem: (title: string, todolistId: string) => void;
-  id: string;
+  addItem: (title: string) => void;
 };
 
 function AddItemForm(props: addItemFormType) {
   const [newTaskTitle, setNewTaskTitle] = useState("");
   const [error, setError] = useState<null | string>(null);
-
-  const addNewTask = () => {
-    if (newTaskTitle === "" || newTaskTitle.trim() === "") {
-      setError("Title is required");
-      return;
-    } else {
-      props.addItem(newTaskTitle, props.id);
-      setNewTaskTitle(newTaskTitle);
-    }
-    setNewTaskTitle("");
-  };
 
   const onNewTitleChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setNewTaskTitle(e.currentTarget.value);
@@ -30,6 +18,16 @@ function AddItemForm(props: addItemFormType) {
     if (e.key === "Enter") {
       addNewTask();
     }
+  };
+  const addNewTask = () => {
+    if (newTaskTitle === "" || newTaskTitle.trim() === "") {
+      setError("Title is required");
+      return;
+    } else {
+      props.addItem(newTaskTitle);
+      setNewTaskTitle(newTaskTitle);
+    }
+    setNewTaskTitle("");
   };
   return (
     <div>
