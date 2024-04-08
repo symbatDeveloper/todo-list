@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-
+import AddItemForm from "./AddItemForm";
 import "./App.css";
 import { TaskType, Todo } from "./Todo";
 import { v1 } from "uuid";
@@ -72,8 +72,19 @@ function App() {
     ],
   });
 
+  let removeTodolist = (todolistId: string) => {
+    let filteredTodolist = todolists.filter((tl) => {
+      return tl.id !== todolistId;
+    });
+    setTodolists(filteredTodolist);
+    delete tasksObj[todolistId];
+    setTasks({ ...tasksObj });
+  };
+
   return (
     <div className="App">
+      <AddItemForm id={""} addItem={() => {}} />
+
       {todolists.map((tl) => {
         let tasksForToDoList = tasksObj[tl.id];
 
@@ -95,6 +106,7 @@ function App() {
             addTask={addTask}
             changeTaskStatus={changeStatus}
             filter={tl.filter}
+            removeTodolist={removeTodolist}
           />
         );
       })}
